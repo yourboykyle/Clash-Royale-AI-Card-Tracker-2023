@@ -1,18 +1,18 @@
 import numpy as np
 
 # Training the data
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from LeNetClass import LeNet
 # Used for aug data gen
 from keras.preprocessing.image import ImageDataGenerator
 # Used for training
-from keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam
 
 # Setting up data
 import cv2
 from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import array_to_img
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from imutils import paths
 # Used for predictions
 from keras.models import load_model
@@ -47,14 +47,14 @@ def trainModel1():
     x_train /= 255
     #x_test /= 255
 
-    y_train = to_categorical(y_train, num_classes=96)
-    #y_test = to_categorical(y_test, num_classes=96)
+    y_train = to_categorical(y_train, num_classes=110)
+    #y_test = to_categorical(y_test, num_classes=110)
 
 
     aug = ImageDataGenerator(width_shift_range=0.1, height_shift_range=0.1, zoom_range=0.2)
 
     print("[INFO] compiling model...")
-    model = LeNet.build(width=32, height=32, depth=3, classes=96)
+    model = LeNet.build(width=32, height=32, depth=3, classes=110)
     opt = Adam(lr=INIT_LR, decay=INIT_LR/EPOCHS)
     model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 
@@ -65,8 +65,7 @@ def trainModel1():
                             epochs=EPOCHS, verbose=1)
 
     print("[INFO] serializing network...")
-    model.save("testNet.model")
-
+    model.save("testNetNew.h5")
 
 def modelPredicts1():
 
@@ -78,7 +77,7 @@ def modelPredicts1():
         imageNames[i] = imageNames[i][imageNames[i].find('/')+1:-4]
 
     print("[INFO] loading network...")
-    model = load_model("testNet.model")
+    model = load_model("testNetNew.h5")
 
     for i in range(8):
         img = cv2.imread("testData/output" + str(i+1) + ".png")
@@ -116,7 +115,7 @@ def liveModelPredicts1():
         imageNames[i] = imageNames[i][imageNames[i].find('/')+1:-4]
 
     print("[INFO] loading network...")
-    model = load_model("testNet.model")
+    model = load_model("testNetNew.h5")
 
     opponentCards = ['MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard']
     tempOpponentCards = ['MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard']
@@ -182,5 +181,5 @@ def liveModelPredicts1():
 
 # --- CNN 1 ---
 #trainModel1()
-modelPredicts1()
-#liveModelPredicts1()
+#modelPredicts1()
+liveModelPredicts1()

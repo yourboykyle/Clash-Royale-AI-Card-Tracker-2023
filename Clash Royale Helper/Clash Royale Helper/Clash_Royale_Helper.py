@@ -16,7 +16,7 @@ from PIL import Image
 import cv2
 from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import array_to_img
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from imutils import paths
 
 from load_train_test_1 import loadTestingImages1
@@ -34,7 +34,7 @@ def liveBothModelPredicts():
     cardCollection = loadCardCollection()
 
     print("[INFO] loading both networks...")
-    model1 = load_model("testNet.model")
+    model1 = load_model("testNetNew.h5")
     model2 = load_model("testNet2.model")
 
     opponentCards = ['MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard']
@@ -263,7 +263,7 @@ def loadCardCollection():
     return data
 
 
-#liveBothModelPredicts()
+liveBothModelPredicts()
 #createCardCollection()
 #print(loadCardCollection())
 

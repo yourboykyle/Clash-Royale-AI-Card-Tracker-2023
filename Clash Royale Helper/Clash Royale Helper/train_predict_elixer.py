@@ -1,18 +1,18 @@
 import numpy as np
 
 # Training the data
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from LeNetClass import LeNet
 # Used for aug data gen
 from keras.preprocessing.image import ImageDataGenerator
 # Used for training
-from keras.optimizers import Adam
+from tensorflow.keras.optimizers import Adam
 
 # Setting up data
 import cv2
 from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import array_to_img
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from imutils import paths
 # Used for predictions
 from keras.models import load_model
@@ -58,14 +58,14 @@ def trainModel2():
                             epochs=EPOCHS, verbose=1)
 
     print("[INFO] serializing network...")
-    model.save("testNet2.model")
+    model.save("testNetNew2.h5")
 
 def modelPredicts2():
 
     loadTestingImages2()
 
     print("[INFO] loading network...")
-    model = load_model("testNet2.model")
+    model = load_model("testNet2.model") # Original CNN still works for detection
 
     for i in range(8):
         img = cv2.imread("testData2/output" + str(i+1) + ".png")
@@ -100,7 +100,7 @@ def modelPredicts2():
 def liveModelPredicts2():
 
     print("[INFO] loading network...")
-    model = load_model("testNet2.model")
+    model = load_model("testNet2.model") 
 
     opponentHand = ['Card 1', 'Card 2', 'Card 3', 'Card 4', 'Card 5', 'Card 6', 'Card 7', 'Card 8']
 
@@ -111,7 +111,8 @@ def liveModelPredicts2():
 
     while (True):
 
-        if (time.time()-startTime > 1):
+        # if (time.time()-startTime > 1):
+        if (time.time()-startTime > 0.5): # Try to double capture speed to reduce number of missed placements
 
             im = ImageGrab.grab()
             im.save("testCNN.png")
@@ -145,8 +146,8 @@ def liveModelPredicts2():
             startTime = time.time()
 
 # --- CNN 2 ---
-generateTrainingImages2()
-labelTrainingData2()
-trainModel2()
-modelPredicts2()
+# generateTrainingImages2()
+# labelTrainingData2()
+# trainModel2()
+# modelPredicts2()
 liveModelPredicts2()

@@ -2,9 +2,9 @@ import numpy as np
 
 # Setting up data
 import cv2
-from keras.preprocessing.image import img_to_array
-from keras.preprocessing.image import array_to_img
-from keras.utils import to_categorical
+from keras.preprocessing.image import img_to_array 
+from keras.preprocessing.image import array_to_img 
+from tensorflow.keras.utils import to_categorical
 from imutils import paths
 
 from random import randint
@@ -88,33 +88,33 @@ def loadTrainingImages2():
         arr = img_to_array(img)
         #cv2.imwrite("croppped.png", arr[58:88, 702:1215])
 
-        arr = arr[58:88, 702:1215]
+        arr = arr[51:173, 680:1208]
 
         card = int(imagePaths[i][imagePaths[i].find('/')+1])
 
         if (card == 0):
-            arr = arr[0:30, 50:104]
+            arr = arr[30:50, 50:104]
 
         elif (card == 1):
-            arr = arr[0:30, 109:163]
+            arr = arr[30:50, 109:163]
 
         elif (card == 2):
-            arr = arr[0:30, 168:222]
+            arr = arr[30:50, 170:224]
 
         elif (card == 3):
-            arr = arr[0:30, 227:281]
+            arr = arr[30:50, 228:282]
 
         elif (card == 4):
-            arr = arr[0:30, 286:340]
+            arr = arr[30:50, 287:341]
 
         elif (card == 5):
-            arr = arr[0:30, 345:399]
+            arr = arr[30:50, 346:400]
 
         elif (card == 6):
-            arr = arr[0:30, 404:459]
+            arr = arr[30:50, 405:459]
 
         elif (card == 7):
-            arr = arr[0:30, 464:518]
+            arr = arr[30:50, 464:518]
 
 
         img = arr
@@ -128,7 +128,7 @@ def loadTrainingImages2():
         arr = img_to_array(img)
         #cv2.imwrite("croppped.png", arr[58:88, 702:1215])
 
-        arr = arr[58:88, 702:1215]
+        arr = arr[51:173, 680:1208]
 
         card = int(imagePaths[i][imagePaths[i].find('/')+1])
         nonPlayedCards = np.arange(8)
@@ -138,29 +138,28 @@ def loadTrainingImages2():
         cardNotPlayed = randint(0, 6)
 
         if (cardNotPlayed == 0):
-            arr = arr[0:30, 50:104]
+            arr = arr[30:50, 50:104]
 
         elif (cardNotPlayed == 1):
-            arr = arr[0:30, 109:163]
+            arr = arr[30:50, 109:163]
 
         elif (cardNotPlayed == 2):
-            arr = arr[0:30, 168:222]
+            arr = arr[30:50, 170:224]
 
         elif (cardNotPlayed == 3):
-            arr = arr[0:30, 227:281]
+            arr = arr[30:50, 228:282]
 
         elif (cardNotPlayed == 4):
-            arr = arr[0:30, 286:340]
+            arr = arr[30:50, 287:341]
 
         elif (cardNotPlayed == 5):
-            arr = arr[0:30, 345:399]
+            arr = arr[30:50, 346:400]
 
         elif (cardNotPlayed == 6):
-            arr = arr[0:30, 404:459]
+            arr = arr[30:50, 405:459]
 
         elif (cardNotPlayed == 7):
-            arr = arr[0:30, 464:518]
-
+            arr = arr[30:50, 464:518]
 
         img = arr
         img = cv2.resize(img, (28, 28))
@@ -180,22 +179,22 @@ def loadTestingImages2():
 
     img = cv2.imread("testCNN.png")
     arr = img_to_array(img)
-    cv2.imwrite("croppped.png", arr[88:118, 702:1215])
+    # cv2.imwrite("croppped.png", arr[88:118, 702:1215]) 
 
-    arr = arr[88:118, 702:1215]
+    arr = arr[51:173, 680:1208]
 
-    cv2.imwrite("testData2/output1.png", arr[0:30, 50:104])
+    cv2.imwrite("testData2/output1.png", arr[30:50, 50:104])
 
-    cv2.imwrite("testData2/output2.png", arr[0:30, 109:163])
+    cv2.imwrite("testData2/output2.png", arr[30:50, 109:163])
 
-    cv2.imwrite("testData2/output3.png", arr[0:30, 168:222])
+    cv2.imwrite("testData2/output3.png", arr[30:50, 170:224])
 
-    cv2.imwrite("testData2/output4.png", arr[0:30, 227:281])
+    cv2.imwrite("testData2/output4.png", arr[30:50, 228:282])
 
-    cv2.imwrite("testData2/output5.png", arr[0:30, 286:340])
+    cv2.imwrite("testData2/output5.png", arr[30:50, 287:341])
 
-    cv2.imwrite("testData2/output6.png", arr[0:30, 345:399])
+    cv2.imwrite("testData2/output6.png", arr[30:50, 345:400])
 
-    cv2.imwrite("testData2/output7.png", arr[0:30, 404:459])
+    cv2.imwrite("testData2/output7.png", arr[30:50, 405:459])
 
-    cv2.imwrite("testData2/output8.png", arr[0:30, 464:518])
+    cv2.imwrite("testData2/output8.png", arr[30:50, 464:518])
