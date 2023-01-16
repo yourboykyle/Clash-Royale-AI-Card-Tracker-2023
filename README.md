@@ -1,6 +1,8 @@
 # Clash Royale AI Card Tracker
 
-Currently, the code is *not* commented very well. This will change soon.
+Forked project from AmarSaini, updated for Jan. 2023 with all current cards/elixir values. Pixel coordinates adjusted for 1280x720 resolution (Bluestacks 11, full screen). New model generated for CNN #1, CNN #2 still works with adjusted pixel coordinates. Notably displayed elixir count is somewhat inaccurate. 
+
+***
 
 I wrote a report explaining how this AI Assistant was made. It's tailored towards an non-computer-science audience. Please see: [Rough Draft Report](https://github.com/AmarSaini/Clash-Royale-AI-Card-Tracker/blob/master/Clash%20Royale%20Helper/Document/Report.pdf)
 
