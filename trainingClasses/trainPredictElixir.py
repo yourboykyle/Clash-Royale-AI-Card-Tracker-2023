@@ -5,10 +5,12 @@ import numpy as np
 # Training the data
 from keras.utils import to_categorical
 from AIClass import AI
+
 # Used for aug data gen
 from keras.preprocessing.image import ImageDataGenerator
+
 # Used for training
-from keras.optimizers import Adam
+from keras.optimizers.legacy import Adam
 
 # Setting up data
 import cv2
@@ -16,6 +18,7 @@ from keras.preprocessing.image import img_to_array
 from keras.preprocessing.image import array_to_img
 from keras.utils import to_categorical
 from imutils import paths
+
 # Used for predictions
 from keras.models import load_model
 
@@ -29,7 +32,7 @@ from PIL import ImageTk
 from PIL import Image
 
 # Use other files
-from testPredictElixir import loadTrainingImagesPredictElixir, loadTestingImagesPredictElixir
+from testPredictElixir import loadTrainingImagesPredictElixir, loadTestingImagesPredictElixir, generateImagesPredictElixir, labelTrainingDataPredictElixir
 
 def trainModelPredictElixir():
     EPOCHS = 150
@@ -50,7 +53,7 @@ def trainModelPredictElixir():
 
     print("[INFO] compiling model...")
     model = AI.build(width=28, height=28, depth=3, classes=2)
-    opt = Adam(lr=INIT_LR, decay=INIT_LR/EPOCHS)
+    opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
     model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 
 
@@ -60,14 +63,14 @@ def trainModelPredictElixir():
                             epochs=EPOCHS, verbose=1)
 
     print("[INFO] serializing network...")
-    model.save(MAIN_DIR + "/models/predictElixir.keras")
+    model.save(MAIN_DIR + "/models/predictElixir.h5", overwrite=True, save_format="h5")
 
 def predictElixir():
 
     loadTestingImagesPredictElixir()
 
     print("[INFO] loading network...")
-    model = load_model(MAIN_DIR + "/models/predictElixir.model") # Original model still works for detection
+    model = load_model(MAIN_DIR + "/models/predictElixir.h5")
 
     for i in range(8):
         img = cv2.imread(MAIN_DIR + "/predictElixirOutputImages/output" + str(i+1) + ".png")
@@ -102,7 +105,7 @@ def predictElixir():
 def predictElixirLive():
 
     print("[INFO] loading network...")
-    model = load_model(MAIN_DIR + "/models/predictElixir.model") # Original model still works for detection
+    model = load_model(MAIN_DIR + "/models/predictElixir.h5")
 
     opponentHand = ['Card 1', 'Card 2', 'Card 3', 'Card 4', 'Card 5', 'Card 6', 'Card 7', 'Card 8']
 
@@ -117,7 +120,7 @@ def predictElixirLive():
         if (time.time()-startTime > 0.5): # Try to double capture speed to reduce number of missed placements
 
             im = ImageGrab.grab()
-            #im.save("testCNN.png")
+            im.save(MAIN_DIR + "/outputImages/screen.png")
             loadTestingImagesPredictElixir()
 
             for i in range(8):
@@ -148,6 +151,8 @@ def predictElixirLive():
             startTime = time.time()
 
 # Train Predict Elixir Models
-#trainModelPredictElixir()
+# generateImagesPredictElixir()
+# labelTrainingDataPredictElixir()
+# trainModelPredictElixir()
 # predictElixir()
 predictElixirLive()

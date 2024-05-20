@@ -25,9 +25,58 @@ from shutil import copyfile
 import os
 from random import randint
 
+def generateImagesPredictElixir():
+    currentNumOfData = len(sorted(list(paths.list_images(MAIN_DIR + "/generatedData/"))))
+
+    print("[INFO] Type anything and press enter to begin...")
+    input()
+
+    startTime = time.time()
+
+    i = 0
+
+    while (True):
+
+        if (time.time() - startTime > 1):
+            print("--------Captured Data--------")
+
+            im = ImageGrab.grab()
+            im.save(MAIN_DIR + "/generatedData/input" + str(i + 1 + currentNumOfData) + ".png")
+            i += 1
+
+            startTime = time.time()
+
+def labelTrainingDataPredictElixir():
+    imagePaths = sorted(list(paths.list_images(MAIN_DIR + "/generatedData/")))
+    currentNumOfLabeledData = len(sorted(list(paths.list_images(MAIN_DIR + "/elixirImages/"))))
+
+    root = tkinter.Tk()
+    myFrame = tkinter.LabelFrame(root, text="Unlabeled Data", labelanchor="n")
+    myFrame.pack()
+
+    labeledCount = 0
+
+    for i in range(len(imagePaths)):
+        img = Image.open(imagePaths[i])
+        img.thumbnail((1500, 1500), Image.LANCZOS)
+        img = ImageTk.PhotoImage(img)
+        panel = tkinter.Label(myFrame, image=img)
+        panel.image = img
+        panel.grid(row=0, column=0)
+        root.update()
+
+        label = input()
+
+        if (label != 'e'):
+            copyfile(imagePaths[i],
+                     MAIN_DIR + "/elixirImages/" + label + "input" + str(labeledCount + currentNumOfLabeledData) + ".png")
+            labeledCount += 1
+
+        os.remove(imagePaths[i])
+
 def loadTrainingImagesPredictElixir():
 
-    imagePaths = sorted(list(paths.list_images("trainData2/")))
+    imagePaths = sorted(list(paths.list_images(MAIN_DIR + "/elixirImages/")))
     x_train = np.zeros((len(imagePaths)*2, 28, 28, 3))
 
     j = 0
@@ -38,35 +87,35 @@ def loadTrainingImagesPredictElixir():
 
         img = cv2.imread(imagePaths[i])
         arr = img_to_array(img)
-        #cv2.imwrite(MAIN_DIR + "/outputImages/deck.png", arr[58:88, 702:1215])
+        cv2.imwrite(MAIN_DIR + "/outputImages/deck.png", arr[31:139, 586:1029])
 
-        arr = arr[51:173, 680:1208]
+        arr = arr[31:139, 586:1029]
 
-        card = int(imagePaths[i][imagePaths[i].find('/')+1])
+        card = int(imagePaths[i].split('/')[-1].split('input')[0])
 
         if (card == 0):
-            arr = arr[30:50, 50:104]
+            arr = arr[30:55, 44:88]
 
         elif (card == 1):
-            arr = arr[30:50, 109:163]
+            arr = arr[30:55, 93:138]
 
         elif (card == 2):
-            arr = arr[30:50, 170:224]
+            arr = arr[30:55, 142:188]
 
         elif (card == 3):
-            arr = arr[30:50, 228:282]
+            arr = arr[30:55, 191:236]
 
         elif (card == 4):
-            arr = arr[30:50, 287:341]
+            arr = arr[30:55, 240:286]
 
         elif (card == 5):
-            arr = arr[30:50, 346:400]
+            arr = arr[30:55, 290:335]
 
         elif (card == 6):
-            arr = arr[30:50, 405:459]
+            arr = arr[30:55, 339:384]
 
         elif (card == 7):
-            arr = arr[30:50, 464:518]
+            arr = arr[30:55, 388:435]
 
 
         img = arr
@@ -78,11 +127,11 @@ def loadTrainingImagesPredictElixir():
 
         img = cv2.imread(imagePaths[i])
         arr = img_to_array(img)
-        #cv2.imwrite(MAIN_DIR + "/outputImages/deck.png", arr[58:88, 702:1215])
+        cv2.imwrite(MAIN_DIR + "/outputImages/deck.png", arr[31:139, 586:1029])
 
-        arr = arr[51:173, 680:1208]
+        arr = arr[31:139, 586:1029]
 
-        card = int(imagePaths[i][imagePaths[i].find('/')+1])
+        card = int(imagePaths[i].split('/')[-1].split('input')[0])
         nonPlayedCards = np.arange(8)
         nonPlayedCards = nonPlayedCards.tolist()
         nonPlayedCards.remove(card)
@@ -90,28 +139,28 @@ def loadTrainingImagesPredictElixir():
         cardNotPlayed = randint(0, 6)
 
         if (cardNotPlayed == 0):
-            arr = arr[30:50, 50:104]
+            arr = arr[30:55, 44:88]
 
         elif (cardNotPlayed == 1):
-            arr = arr[30:50, 109:163]
+            arr = arr[30:55, 93:138]
 
         elif (cardNotPlayed == 2):
-            arr = arr[30:50, 170:224]
+            arr = arr[30:55, 142:188]
 
         elif (cardNotPlayed == 3):
-            arr = arr[30:50, 228:282]
+            arr = arr[30:55, 191:236]
 
         elif (cardNotPlayed == 4):
-            arr = arr[30:50, 287:341]
+            arr = arr[30:55, 240:286]
 
         elif (cardNotPlayed == 5):
-            arr = arr[30:50, 346:400]
+            arr = arr[30:55, 290:335]
 
         elif (cardNotPlayed == 6):
-            arr = arr[30:50, 405:459]
+            arr = arr[30:55, 339:384]
 
         elif (cardNotPlayed == 7):
-            arr = arr[30:50, 464:518]
+            arr = arr[30:55, 388:435]
 
         img = arr
         img = cv2.resize(img, (28, 28))
@@ -131,22 +180,15 @@ def loadTestingImagesPredictElixir():
 
     img = cv2.imread(MAIN_DIR + "/outputImages/screen.png")
     arr = img_to_array(img)
-    # cv2.imwrite(MAIN_DIR + "/outputImages/deck.png", arr[88:118, 702:1215])
+    cv2.imwrite(MAIN_DIR + "/outputImages/deck.png", arr[31:139, 586:1029])
 
-    arr = arr[51:173, 680:1208]
+    arr = arr[31:139, 586:1029]
 
-    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output1.png", arr[30:50, 50:104])
-
-    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output2.png", arr[30:50, 109:163])
-
-    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output3.png", arr[30:50, 170:224])
-
-    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output4.png", arr[30:50, 228:282])
-
-    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output5.png", arr[30:50, 287:341])
-
-    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output6.png", arr[30:50, 345:400])
-
-    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output7.png", arr[30:50, 405:459])
-
-    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output8.png", arr[30:50, 464:518])
+    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output1.png", arr[30:55, 44:88])
+    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output2.png", arr[30:55, 93:138])
+    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output3.png", arr[30:55, 142:188])
+    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output4.png", arr[30:55, 191:236])
+    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output5.png", arr[30:55, 240:286])
+    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output6.png", arr[30:55, 290:335])
+    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output7.png", arr[30:55, 339:384])
+    cv2.imwrite(MAIN_DIR + "/predictElixirOutputImages/output8.png", arr[30:55, 388:435])

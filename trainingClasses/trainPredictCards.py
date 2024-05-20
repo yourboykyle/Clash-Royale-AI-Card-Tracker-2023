@@ -13,7 +13,6 @@ from keras.preprocessing.image import ImageDataGenerator
 
 # Used for training
 from keras.optimizers.legacy import Adam
-#from keras.optimizers import Adam
 
 # Setting up data
 import cv2
@@ -61,7 +60,6 @@ def trainModelPredictCards():
     print("[INFO] compiling model...")
     model = AI.build(width=32, height=32, depth=3, classes=118)
     opt = Adam(lr=INIT_LR, decay=INIT_LR / EPOCHS)
-    #opt = Adam(learning_rate=INIT_LR, weight_decay=INIT_LR / EPOCHS)
     model.compile(loss="binary_crossentropy", optimizer=opt, metrics=["accuracy"])
 
     print("[INFO] training network...")
@@ -137,7 +135,7 @@ def predictCardsLive():
         if (time.time() - startTime > 1):
 
             im = ImageGrab.grab()
-            # im.save("testCNN.png")
+            im.save(MAIN_DIR + "/outputImages/screen.png")
             loadTestingImagesPredictCards()
 
             for i in range(8):
@@ -184,6 +182,6 @@ def predictCardsLive():
             startTime = time.time()
 
 # Train Predict Cards Models
-trainModelPredictCards()
+# trainModelPredictCards()
 # predictCards()
 predictCardsLive()

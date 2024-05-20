@@ -28,7 +28,6 @@ from trainingClasses.testPredictCards import loadTestingImagesPredictCards
 from trainingClasses.testPredictElixir import loadTestingImagesPredictElixir
 
 def liveBothModelPredicts():
-    # display_mouse_coordinates()
 
     imagePaths = sorted(list(paths.list_images(MAIN_DIR + "/cardImages/")))
     imageNames = sorted(list(paths.list_images(MAIN_DIR + "/cardImages/")))
@@ -40,7 +39,7 @@ def liveBothModelPredicts():
 
     print("[INFO] loading both networks...")
     model1 = load_model(MAIN_DIR + "/models/predictCards.h5")
-    model2 = load_model(MAIN_DIR + "/models/predictElixir.model")
+    model2 = load_model(MAIN_DIR + "/models/predictElixir.h5")
 
     opponentCards = ['MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard', 'MysteryCard',
                      'MysteryCard', 'MysteryCard']
@@ -124,9 +123,9 @@ def liveBothModelPredicts():
             root.update()
 
             im = ImageGrab.grab()
-            # im.save("testCNN.png")
+            im.save(MAIN_DIR + "/outputImages/screen.png")
             loadTestingImagesPredictCards()
-            # loadTestingImages2()
+            loadTestingImagesPredictElixir()
 
             for i in range(8):
 
@@ -204,16 +203,20 @@ def liveBothModelPredicts():
 
                 if (label == 1 or (label == 0 and output[label] < .80)):
                     msg = "Placed"
+
                     if (opponentCards[i] == "MysteryCard"):
                         if (i not in pending):
                             pending.append(i)
                             if (pendingElixir == 0):
                                 pendingElixir = time.time()
 
-                    elif (opponentHand.index(opponentCards[i]) < 4):
-                        opponentHand.remove(opponentCards[i])
-                        opponentHand.append(opponentCards[i])
-                        elixir -= cardCollection[opponentCards[i]]
+                    else:
+                        if opponentCards[i] in opponentHand:
+                            index = opponentHand.index(opponentCards[i])
+                            if index < 4:
+                                opponentHand.remove(opponentCards[i])
+                                opponentHand.append(opponentCards[i])
+                                elixir -= cardCollection[opponentCards[i]]
 
                 labelString = "Card " + str(i + 1) + " - {}: {:.2f}%".format(msg, output[label] * 100)
 

@@ -40,7 +40,7 @@ def loadTestingImagesPredictCards():
     # arr[y:y, x:x]
     cv2.imwrite(MAIN_DIR + "/predictCardsOutputImages/output1.png", arr[53:108, 44:88])
     cv2.imwrite(MAIN_DIR + "/predictCardsOutputImages/output2.png", arr[53:108, 93:138])
-    cv2.imwrite(MAIN_DIR + "/predictCardsOutputImages/output3.png", arr[53:108, 142:188])
+    cv2.imwrite(MAIN_DIR + "/predictCardsOutputImages/output3.png", arr[53:108, 142:187])
     cv2.imwrite(MAIN_DIR + "/predictCardsOutputImages/output4.png", arr[53:108, 191:236])
     cv2.imwrite(MAIN_DIR + "/predictCardsOutputImages/output5.png", arr[53:108, 240:286])
     cv2.imwrite(MAIN_DIR + "/predictCardsOutputImages/output6.png", arr[53:108, 290:335])
